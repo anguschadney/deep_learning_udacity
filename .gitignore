@@ -1,2 +1,4 @@
 notMNIST*
 .ipynb_checkpoints/
+data/
+*.zip

@@ -11,7 +11,7 @@
 # 
 # The goal of this assignment is to progressively train deeper and more accurate models using TensorFlow.
 
-# In[ ]:
+# In[1]:
 
 # These are all the modules we'll be using later. Make sure you can import them
 # before proceeding further.
@@ -24,7 +24,7 @@ from six.moves import range
 
 # First reload the data we generated in `1_notmnist.ipynb`.
 
-# In[ ]:
+# In[2]:
 
 pickle_file = 'notMNIST.pickle'
 
@@ -46,7 +46,7 @@ with open(pickle_file, 'rb') as f:
 # - data as a flat matrix,
 # - labels as float 1-hot encodings.
 
-# In[ ]:
+# In[3]:
 
 image_size = 28
 num_labels = 10
@@ -80,7 +80,7 @@ print('Test set', test_dataset.shape, test_labels.shape)
 # 
 # Let's load all the data into TensorFlow and build the computation graph corresponding to our training:
 
-# In[ ]:
+# In[4]:
 
 # With gradient descent training, even this much data is prohibitive.
 # Subset the training data for faster turnaround.
@@ -130,7 +130,7 @@ with graph.as_default():
 
 # Let's run this computation and iterate:
 
-# In[ ]:
+# In[5]:
 
 num_steps = 801
 
@@ -169,7 +169,7 @@ with tf.Session(graph=graph) as session:
 # 
 # The graph will be similar, except that instead of holding all the training data into a constant node, we create a `Placeholder` node which will be fed actual data at every call of `sesion.run()`.
 
-# In[ ]:
+# In[6]:
 
 batch_size = 128
 
@@ -206,7 +206,7 @@ with graph.as_default():
 
 # Let's run it:
 
-# In[ ]:
+# In[7]:
 
 num_steps = 3001
 
@@ -246,7 +246,7 @@ with tf.Session(graph=graph) as session:
 # 
 # ---
 
-# In[ ]:
+# In[9]:
 
 image_size = 28
 num_labels = 10
@@ -267,15 +267,10 @@ with graph.as_default():
     tf_test_dataset = tf.constant(test_dataset)
   
     # Variables.
-    layer1_weights = tf.Variable(
-        tf.truncated_normal([image_size * image_size, hidden_nodes])
-    )
+    layer1_weights = tf.Variable(tf.truncated_normal([image_size * image_size, hidden_nodes])    )
     layer1_biases = tf.Variable(tf.zeros([hidden_nodes]))
-    layer2_weights = tf.Variable(
-        tf.truncated_normal([hidden_nodes, num_labels])
-    )
+    layer2_weights = tf.Variable(tf.truncated_normal([hidden_nodes, num_labels]))
     layer2_biases = tf.Variable(tf.zeros([num_labels]))
-    tf_loss_factor = tf.Variable()
     
     # Model
     def model(data):
@@ -284,10 +279,7 @@ with graph.as_default():
   
     # Training computation.
     logits = model(tf_train_dataset)
-    loss = tf.reduce_mean(
-        tf.nn.softmax_cross_entropy_with_logits(logits, tf_train_labels)
-    )
-    loss += loss_factor * regularizers
+    loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, tf_train_labels))
   
     # Optimizer.
     optimizer = tf.train.GradientDescentOptimizer(0.5).minimize(loss)
@@ -298,7 +290,7 @@ with graph.as_default():
     test_prediction = tf.nn.softmax(model(tf_test_dataset))
 
 
-# In[ ]:
+# In[10]:
 
 num_steps = 3001
 
